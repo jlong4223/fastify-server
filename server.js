@@ -39,7 +39,62 @@ fastify.route({
   },
 });
 
-// defining and running the server
+fastify.route({
+  method: "GET",
+  url: "/jared",
+  schema: {
+    querystring: {
+      name: { type: "string" },
+    },
+    response: {
+      200: {
+        type: "object",
+        properties: {
+          hello: { type: "string" },
+          message: { type: "string" },
+          status: { type: "number" },
+        },
+      },
+    },
+  },
+  handler: async (request, reply) => {
+    return {
+      hello: "Jared",
+      message: "welcome to your personal route",
+      status: 200,
+    };
+  },
+});
+
+// custom error route
+fastify.route({
+  method: "GET",
+  url: "/*",
+  schema: {
+    querystring: {
+      name: { type: "string" },
+    },
+    response: {
+      404: {
+        type: "object",
+        properties: {
+          hello: { type: "string" },
+          message: { type: "string" },
+          status: { type: "number" },
+        },
+      },
+    },
+  },
+  handler: async (request, reply) => {
+    return {
+      hello: "who ever you are",
+      message: "This is not a valid route",
+      status: 404,
+    };
+  },
+});
+
+// defining and running the server ========
 const port = 3000;
 const start = async () => {
   try {
